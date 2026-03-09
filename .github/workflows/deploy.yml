@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: scilus/nf-mouse
+          repository: scilus/sf-mouse
           ref: ${{ github.event.pull_request.head.sha || 'main' }}
           fetch-depth: 0  # Shallow clones should be disabled for a version bump to work
 
@@ -55,11 +55,11 @@ jobs:
           nf-core pipelines schema docs -o parameters.md -x markdown
           echo '' | cat - parameters.md > temp && mv temp parameters.md
           echo '---' | cat - parameters.md > temp && mv temp parameters.md
-          echo 'description: nf-mouse parameters' | cat - parameters.md > temp && mv temp parameters.md
+          echo 'description: sf-mouse parameters' | cat - parameters.md > temp && mv temp parameters.md
           echo 'title: Pipeline Parameters' | cat - parameters.md > temp && mv temp parameters.md
           echo '---' | cat - parameters.md > temp && mv temp parameters.md
           sed -E -i 's/^## (.*)$/### **\1**/' parameters.md
-          sed -E -i '/^# scilus\/nf-mouse pipeline parameters$/,/^nf-mouse is a neuroimaging pipeline to process ex-vivo dMRI data\.$/d' parameters.md
+          sed -E -i '/^# scilus\/sf-mouse pipeline parameters$/,/^sf-mouse is a neuroimaging pipeline to process ex-vivo dMRI data\.$/d' parameters.md
 
       - name: Pack into artifacts
         uses: actions/upload-artifact@v4
@@ -74,7 +74,7 @@ jobs:
       - name: Checkout website code
         uses: actions/checkout@v4
         with:
-          repository: scilus/nf-mouse-documentation
+          repository: scilus/sf-mouse-documentation
 
       - name: Download pipeline parameters
         uses: actions/download-artifact@v4
