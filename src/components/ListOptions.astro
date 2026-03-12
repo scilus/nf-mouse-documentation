@@ -21,7 +21,7 @@ try {
 
 <div class="options-wrapper">
   <div class="options-list">
-      <h5>Select nf-mouse release</h5>
+      <h5>Select sf-mouse release</h5>
       <div>
         <select id="version-select" name="version">
           {versions.map((version) => (
@@ -116,7 +116,7 @@ try {
           <button id="copy-button" class="copy-button">Copy</button>
         </div>
         <p>
-        <code id="base-command">nextflow run scilus/nf-mouse -r <span id="version-placeholder">main</span> \
+        <code id="base-command">nextflow run scilus/sf-mouse -r <span id="version-placeholder">main</span> \
     --input <span id="input-placeholder">INPUT</span> \
     --outdir <span id="output-placeholder">./results</span> \
     -profile <span id="profile-placeholder">docker,pre_qc</span> \
@@ -152,7 +152,7 @@ try {
     // Build command string
     function buildCommand() {
       const parts = [
-        `nextflow run scilus/nf-mouse -r ${versionSelect.value || 'main'}`,
+        `nextflow run scilus/sf-mouse -r ${versionSelect.value || 'main'}`,
         `--input ${inputDir.value || 'INPUT'}`,
         `--outdir ${outputDir.value || './results'}`,
       ];

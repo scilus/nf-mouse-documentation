@@ -1,6 +1,6 @@
 ---
 title: Running the pipeline
-description: How to use nf-mouse
+description: How to use sf-mouse
 ---
 
 import CommandOutputs from '../../../components/CommandOutputs.astro';
@@ -8,14 +8,14 @@ import ListOptions from '../../../components/ListOptions.astro';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { FileTree } from '@astrojs/starlight/components';
 import { Steps } from '@astrojs/starlight/components';
-import schemaImage from '../../../assets/nf-mouse-schema.png';
+import schemaImage from '../../../assets/sf-mouse-schema.png';
 
 <div class="centered">
-  <img src={schemaImage.src} alt="nf-mouse pipeline schema" />
+  <img src={schemaImage.src} alt="sf-mouse pipeline schema" />
 </div>
 
 :::note[Parameters and profiles]
-A pipeline like `nf-mouse` is highly flexible and configurable. To simplify usage for anyone who wants to run it 
+A pipeline like `sf-mouse` is highly flexible and configurable. To simplify usage for anyone who wants to run it 
 without diving into every parameter, we created a set of profiles that regroup multiple variables.
 :::
 
@@ -33,7 +33,7 @@ That said, here are some important parameters you might find useful.
 
   3. **`--run_step`**
 
-     Each preprocessing step of `nf-mouse` can be skipped. You can deactivate a specific step by adding ```--run_STEP false```. Here are the following steps that can be disabled: denoising, eddy, n4, resampling,
+     Each preprocessing step of `sf-mouse` can be skipped. You can deactivate a specific step by adding ```--run_STEP false```. Here are the following steps that can be disabled: denoising, eddy, n4, resampling,
 
 </Steps>
 
@@ -49,7 +49,7 @@ For the full parameter list, consult the page [parameters](../parameters)
      By selecting this profile, you will run a set of checks and validations steps to insure your images and bvecs are oriented correctly.
 
      :::caution
-     **If you want to use the output of the **pre QC** data you must add --use_preqc. See [parameters section](/nf-mouse/guides/parameters).**
+     **If you want to use the output of the **pre QC** data you must add --use_preqc. See [parameters section](/sf-mouse/guides/parameters).**
      :::
 
 </Steps>
@@ -91,7 +91,7 @@ The typical command for running the pipeline is as follows:
 <Tabs>
   <TabItem label="Command">
     ```bash
-    nextflow run scilus/nf-mouse -r main \
+    nextflow run scilus/sf-mouse -r main \
          --input <input_directory> \
          --outdir <output_directory> \
          -profile docker \ # or apptainer
@@ -107,22 +107,22 @@ There are only 3 parameters that need to be supplied at runtime:
 <Steps>
   1. **`--input`**: for the path to your BIDS directory
 
-     For more details on how to organize your input folder, please refer to the [inputs section](/nf-mouse/guides/inputs).
+     For more details on how to organize your input folder, please refer to the [inputs section](/sf-mouse/guides/inputs).
 
   2. **`--outdir`**: path to the output directory
 
-     We do not specify a default for the output directory location to ensure that users have total control on where the output files will be stored, as it can quickly grow into a large number of files. The recommended naming would be something along the line of `nf-mouse-v{version}` where `{version}` could be `0.1.0` for example.
+     We do not specify a default for the output directory location to ensure that users have total control on where the output files will be stored, as it can quickly grow into a large number of files. The recommended naming would be something along the line of `sf-mouse-v{version}` where `{version}` could be `0.1.0` for example.
 
-  3. **`-r`**: Release nf-mouse
+  3. **`-r`**: Release sf-mouse
 
-      You need to select the `nf-mouse`release you want to use. [Release available](https://github.com/scilus/nf-mouse/releases).
+      You need to select the `sf-mouse`release you want to use. [Release available](https://github.com/scilus/sf-mouse/releases).
 
   4. **`-profile`**: profile to be run and container system to use
 
-     `nf-mouse` processing steps was designed in profiles, giving users total control on which type of processing they want to make. One caveat is that users need to explicit tell which profile to run. This is done via the `-profile` parameter. To view the available processing profiles, please see [this section](#choosing-a-profile)
+     `sf-mouse` processing steps was designed in profiles, giving users total control on which type of processing they want to make. One caveat is that users need to explicit tell which profile to run. This is done via the `-profile` parameter. To view the available processing profiles, please see [this section](#choosing-a-profile)
 
      :::note
-     The `-profile` command line parameter is a core `nextflow` parameter, hence the preceding single dash. This means you can also specify nextflow specific profile side-by-side `nf-mouse` processing profiles (e.g., the docker/apptainer selection).
+     The `-profile` command line parameter is a core `nextflow` parameter, hence the preceding single dash. This means you can also specify nextflow specific profile side-by-side `sf-mouse` processing profiles (e.g., the docker/apptainer selection).
      :::
 
   5. **`-resume`**: Enables `nextflow` caching capabilities.
@@ -134,11 +134,11 @@ There are only 3 parameters that need to be supplied at runtime:
      This is a core `nextflow` arguments. It enables the  *html report* of your pipeline. For more details, see the [core `nextflow` arguments section](#core-nextflow-arguments).
 </Steps>
 :::note
-More parameters can be tuned to your own usage, for a concise list of the most common parameters, you can run `nextflow run scilus/nf-mouse -r main --help`. Otherwise, for the complete list of parameters, please refer to the [parameters section](/nf-mouse/guides/parameters) of the documentation.
+More parameters can be tuned to your own usage, for a concise list of the most common parameters, you can run `nextflow run scilus/sf-mouse -r main --help`. Otherwise, for the complete list of parameters, please refer to the [parameters section](/sf-mouse/guides/parameters) of the documentation.
 :::
 
 :::caution[Running the pipeline in offline mode]
-If the computer nodes you are planning to use do not have access to the internet, there is a few steps to go through to make sure the containers and templates are available during pipeline execution. Please head over to [running with no internet access section](/nf-mouse/guides/nointernet).
+If the computer nodes you are planning to use do not have access to the internet, there is a few steps to go through to make sure the containers and templates are available during pipeline execution. Please head over to [running with no internet access section](/sf-mouse/guides/nointernet).
 :::
 
 Now it's time to look at your output directory. See [output section](../outputs).
@@ -159,7 +159,7 @@ Here is a smart tool to help you build
 
 ## **Advanced usage**
 
-The execution method for `nf-mouse` varies, often depending on the informatics structure where you intend to run `nf-mouse`.
+The execution method for `sf-mouse` varies, often depending on the informatics structure where you intend to run `sf-mouse`.
 
 Here are three extra sections that could help you:
  
