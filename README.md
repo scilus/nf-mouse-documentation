@@ -1,4 +1,4 @@
-# nf-mouse Documentation
+# sf-mouse Documentation
 
 ## 🚀 Project Structure
 

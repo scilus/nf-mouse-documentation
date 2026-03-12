@@ -1,13 +1,13 @@
 ---
 title: Inputs
-description: nf-mouse inputs
+description: sf-mouse inputs
 ---
 
 import { FileTree } from '@astrojs/starlight/components';
 
 ### **Basic input directory**
 
-`nf-mouse` only needs diffusion MRI images. The input structure should look like this:
+`sf-mouse` only needs diffusion MRI images. The input structure should look like this:
 
 <FileTree>
   * input\_directory
@@ -23,11 +23,11 @@ import { FileTree } from '@astrojs/starlight/components';
       * sub-02\_mask.nii.gz (optional)
 </FileTree>
 
-`nf-mouse` allows to extract the brain with a nnUNet algorithm.
+`sf-mouse` allows to extract the brain with a nnUNet algorithm.
 If you don't want to use this method, you also can provide a mask.
 
 ### **BIDS input directory** (In development)
 
-The [BIDS (Brain Imaging Data Structure)](https://bids-specification.readthedocs.io/en/stable/) input directory is a standardized way to organize and describe neuroimaging and behavioral data. The nf-mouse pipeline expects the input data to be organized in the BIDS format. Good resources to convert your raw DICOMs files in a BIDS structure include [dcm2bids](https://unfmontreal.github.io/Dcm2Bids/3.2.0/) and/or [heudiconv](https://heudiconv.readthedocs.io/en/latest/). It is recommended that users validate their BIDS layout using the official [bids-validator tool](https://hub.docker.com/r/bids/validator) docker image or the [web-based version](https://bids-standard.github.io/bids-validator/).
+The [BIDS (Brain Imaging Data Structure)](https://bids-specification.readthedocs.io/en/stable/) input directory is a standardized way to organize and describe neuroimaging and behavioral data. The sf-mouse pipeline expects the input data to be organized in the BIDS format. Good resources to convert your raw DICOMs files in a BIDS structure include [dcm2bids](https://unfmontreal.github.io/Dcm2Bids/3.2.0/) and/or [heudiconv](https://heudiconv.readthedocs.io/en/latest/). It is recommended that users validate their BIDS layout using the official [bids-validator tool](https://hub.docker.com/r/bids/validator) docker image or the [web-based version](https://bids-standard.github.io/bids-validator/).
 
-`nf-mouse` will soon be BIDS compatible.
+`sf-mouse` will soon be BIDS compatible.

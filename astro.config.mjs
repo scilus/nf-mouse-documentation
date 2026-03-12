@@ -9,10 +9,10 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
 	site: "https://scilus.github.io",
-	base: "/nf-mouse",
+	base: "/sf-mouse",
 	integrations: [
 		starlight({
-			title: 'nf-mouse',
+			title: 'sf-mouse',
 			plugins: [
 				starlightVersions({
 					versions: [
@@ -21,11 +21,11 @@ export default defineConfig({
 				}),
 			],
 			logo: {
-				light: './src/assets/nf-mouse-light-logo.png',
-				dark: './src/assets/nf-mouse-dark-logo.png',
+				light: './src/assets/sf-mouse-light-logo.png',
+				dark: './src/assets/sf-mouse-dark-logo.png',
 				replacesTitle: false,
 			},
-			social: [{ icon: 'github', label: 'nf-mouse', href: 'https://github.com/scilus/nf-mouse' }],
+			social: [{ icon: 'github', label: 'sf-mouse', href: 'https://github.com/scilus/sf-mouse' }],
 			sidebar: [
 				{
 					label: 'Guides',
