@@ -1,6 +1,6 @@
 ---
-title: Running nf-mouse without internet access
-description: How to run nf-mouse with no internet access
+title: Running sf-mouse without internet access
+description: How to run sf-mouse with no internet access
 slug: 0.1.0/guides/nointernet
 ---
 
@@ -75,7 +75,7 @@ Some computing nodes does not have access to internet at runtime. Since the pipe
      <CommandOutputs>
        <span slot="command">
          ```bash
-         nf-core pipelines download scilus/nf-mouse -r 0.1.0 -o ./containers/ -s singularity -l docker.io -u copy --force
+         nf-core pipelines download scilus/sf-mouse -r 0.1.0 -o ./containers/ -s singularity -l docker.io -u copy --force
          ```
        </span>
 
@@ -98,7 +98,7 @@ Some computing nodes does not have access to internet at runtime. Since the pipe
          This is not recommended when downloading Singularity images, as it can take a long time and saves very little space.
          ? Choose compression type: none
          WARNING  Deleting existing output directory: 'containers'
-         INFO     Saving 'scilus/nf-mouse'
+         INFO     Saving 'scilus/sf-mouse'
                  Pipeline revision: 'dev'
                  Use containers: 'singularity'
                  Container library: 'docker.io'
@@ -129,4 +129,4 @@ Once containers are downloaded, `nextflow` needs to be told where to look for th
   </TabItem>
 </Tabs>
 
-Now you are good to go! Please refer to the [usage documentation on how to launch the pipeline](/nf-mouse/0.1.0/guides/usage).
+Now you are good to go! Please refer to the [usage documentation on how to launch the pipeline](/sf-mouse/0.1.0/guides/usage).
