@@ -24,16 +24,16 @@ jobs:
     name: pipeline_parameters
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: scilus/sf-mouse
           ref: ${{ github.event.pull_request.head.sha || 'main' }}
           fetch-depth: 0  # Shallow clones should be disabled for a version bump to work
 
       - name: Install Nextflow
-        uses: nf-core/setup-nextflow@v2
+        uses: nf-core/setup-nextflow@v3.0.1
 
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
           architecture: "x64"
@@ -62,7 +62,7 @@ jobs:
           sed -E -i '/^# scilus\/sf-mouse pipeline parameters$/,/^sf-mouse is a neuroimaging pipeline to process ex-vivo dMRI data\.$/d' parameters.md
 
       - name: Pack into artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v8
         with:
           name: markdown
           path: parameters.md
@@ -72,20 +72,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout website code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: scilus/sf-mouse-documentation
 
       - name: Download pipeline parameters
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: markdown
           path: src/content/docs/guides/
 
       - name: Install, build, and upload the site
-        uses: withastro/action@v2
+        uses: withastro/action@v6
         with:
-          node-version: 22
+          node-version: 24
           package-manager: npm@latest
 
   deploy:
@@ -98,7 +98,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
 #  preview-deploy:
 #    if: ${{ !inputs.deploy && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') }}
