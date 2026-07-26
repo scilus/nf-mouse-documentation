@@ -62,7 +62,7 @@ jobs:
           sed -E -i '/^# scilus\/sf-mouse pipeline parameters$/,/^sf-mouse is a neuroimaging pipeline to process ex-vivo dMRI data\.$/d' parameters.md
 
       - name: Pack into artifacts
-        uses: actions/upload-artifact@v8
+        uses: actions/upload-artifact@v7
         with:
           name: markdown
           path: parameters.md
@@ -110,7 +110,7 @@ jobs:
 #    steps:
 #      - name: Deploy PR preview to GitHub Pages
 #        id: preview
-#        uses: actions/deploy-pages@v4
+#        uses: actions/deploy-pages@v5
 #        with:
 #          preview: 'true'
 
