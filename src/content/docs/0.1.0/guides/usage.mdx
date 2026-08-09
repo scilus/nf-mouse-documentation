@@ -5,6 +5,7 @@ slug: 0.1.0/guides/usage
 ---
 
 import CommandOutputs from '../../../../components/CommandOutputs.astro';
+import ListOptions from '../../../../components/ListOptions.astro';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { FileTree } from '@astrojs/starlight/components';
 import { Steps } from '@astrojs/starlight/components';
@@ -12,19 +13,42 @@ import schema from '../../../../assets/0.1.0/sf-mouse-schema.png';
 
 <img src={schema.src} alt="sf-mouse pipeline schema" />
 
-### **Choosing a profile**
+:::note[Parameters and profiles]
+A pipeline like `sf-mouse` is highly flexible and configurable. To simplify usage for anyone who wants to run it 
+without diving into every parameter, we created a set of profiles that regroup multiple variables.
+:::
 
-Some `sf-mouse` core functionalities are accessed and selected using profiles and arguments. 
+That said, here are some important parameters you might find useful.
+### Parameters
+
+<Steps>
+  1. **`--use_preqc`**
+
+     By selecting this parameter and combined with the profile `run_preqc`, you will use the output of a combination of checks and validations steps to insure your images and bvecs are oriented correctly.
+
+  2. **`--use_fodf_for_tracking`**
+
+     By selecting this parameter, tracking will be carried out using the FODF reconstruction.
+
+  3. **`--run_step`**
+
+     Each preprocessing step of `sf-mouse` can be skipped. You can deactivate a specific step by adding ```--run_STEP false```. Here are the following steps that can be disabled: denoising, eddy, n4, resampling,
+
+</Steps>
+
+For the full parameter list, consult the page [parameters](../parameters)
+
+### **Profiles**
 
 **Processing profiles**:
 
 <Steps>
-  1. **`-pre_qc`:**
+  1. **`pre_qc`:**
 
      By selecting this profile, you will run a set of checks and validations steps to insure your images and bvecs are oriented correctly.
 
      :::caution
-     **If you want to use the output of the **pre QCed** data you must add --use_preqc. See [parameters section](/sf-mouse/0.1.0/guides/parameters).**
+     **If you want to use the output of the **pre QC** data you must add --use_preqc. See [parameters section](/sf-mouse/0.1.0/guides/parameters).**
      :::
 
 </Steps>
@@ -32,19 +56,19 @@ Some `sf-mouse` core functionalities are accessed and selected using profiles an
 **Configuration profiles**:
 
 <Steps>
-  1. **`-profile docker` (Recommended)**:
+  1. **`docker` (Recommended)**:
 
      Each process will be run using Docker containers.
 
-  2. **`-profile apptainer` (Recommended)**:
+  2. **`apptainer` (Recommended)**:
 
      Each process will be run using Apptainer images.
 
-  3. **`-profile arm`:**
+  3. **`arm`:**
 
      Made to be use on computers with an ARM architecture (e.g., Mac M1,2,3,4). This is still **experimental**, depending on which profile you select, some containers might not be built for the ARM architecture. Feel free to open an issue if needed.
 
-  4. **`-profile slurm`:**
+  4. **`slurm`:**
 
      If selected, the SLURM job scheduler will be used to dispatch jobs.
 
@@ -66,12 +90,17 @@ The typical command for running the pipeline is as follows:
 <Tabs>
   <TabItem label="Command">
     ```bash
-    nextflow run scilus/sf-mouse -r 0.1.0 --input <input_directory> --outdir ./results --use_preqc true -profile docker,pre_qc -resume
+    nextflow run scilus/sf-mouse -r main \
+         --input <input_directory> \
+         --outdir <output_directory> \
+         -profile docker \ # or apptainer
+         -with-report <report_name>.html \
+         -resume
     ```
   </TabItem>
 </Tabs>
 
-This will launch the pipeline with the `docker` configuration profile, will run the pre_qc steps and also use the corrected images and bvecs to continue the processing.
+This will launch the pipeline using the main branch (latest non-released version) with the `docker` configuration profile.
 There are only 3 parameters that need to be supplied at runtime:
 
 <Steps>
@@ -79,12 +108,15 @@ There are only 3 parameters that need to be supplied at runtime:
 
      For more details on how to organize your input folder, please refer to the [inputs section](/sf-mouse/0.1.0/guides/inputs).
 
-
   2. **`--outdir`**: path to the output directory
 
      We do not specify a default for the output directory location to ensure that users have total control on where the output files will be stored, as it can quickly grow into a large number of files. The recommended naming would be something along the line of `sf-mouse-v{version}` where `{version}` could be `0.1.0` for example.
 
-  3. **`-profile`**: profile to be run and container system to use
+  3. **`-r`**: Release sf-mouse
+
+      You need to select the `sf-mouse`release you want to use. [Release available](https://github.com/scilus/sf-mouse/releases).
+
+  4. **`-profile`**: profile to be run and container system to use
 
      `sf-mouse` processing steps was designed in profiles, giving users total control on which type of processing they want to make. One caveat is that users need to explicit tell which profile to run. This is done via the `-profile` parameter. To view the available processing profiles, please see [this section](#choosing-a-profile)
 
@@ -92,102 +124,47 @@ There are only 3 parameters that need to be supplied at runtime:
      The `-profile` command line parameter is a core `nextflow` parameter, hence the preceding single dash. This means you can also specify nextflow specific profile side-by-side `sf-mouse` processing profiles (e.g., the docker/apptainer selection).
      :::
 
-  4. **`-resume`**: Enables `nextflow` caching capabilities.
+  5. **`-resume`**: Enables `nextflow` caching capabilities.
 
      This is a core `nextflow` arguments. It enables the *resumability* of your pipeline. In the event where the pipeline fails for a variety of reasons, the following run will start back where it left off. For more details, see the [core `nextflow` arguments section](#core-nextflow-arguments).
-</Steps>
 
+  6. **`-with-report`**: Enables `nextflow` caching capabilities.
+
+     This is a core `nextflow` arguments. It enables the  *html report* of your pipeline. For more details, see the [core `nextflow` arguments section](#core-nextflow-arguments).
+</Steps>
 :::note
-More parameters can be tuned to your own usage, for a concise list of the most common parameters, you can run `nextflow run scilus/sf-mouse -r 0.1.0 --help`. Otherwise, for the complete list of parameters, please refer to the [parameters section](/sf-mouse/0.1.0/guides/parameters) of the documentation.
+More parameters can be tuned to your own usage, for a concise list of the most common parameters, you can run `nextflow run scilus/sf-mouse -r main --help`. Otherwise, for the complete list of parameters, please refer to the [parameters section](/sf-mouse/guides/parameters) of the documentation.
 :::
 
 :::caution[Running the pipeline in offline mode]
 If the computer nodes you are planning to use do not have access to the internet, there is a few steps to go through to make sure the containers and templates are available during pipeline execution. Please head over to [running with no internet access section](/sf-mouse/0.1.0/guides/nointernet).
 :::
 
-Note that the pipeline will create the following files in your working directory:
+Now it's time to look at your output directory. See [output section](../outputs).
 
-<FileTree>
-  * work/                           # Directory containing the nextflow working files
-  * sf-mouse-v0.1.0/            # Finished results in specified location (defined with --outdir)
-    * sub-01
-        * anat/
-        * dwi/
-        * stats/
-        * report/
-  * .nextflow\_log                   # Log file from Nextflow
-  * ...                             # Other nextflow hidden files, eg. history of pipeline runs and old logs.
-</FileTree>
+## **Build your own command line**
 
-### **Using the params.yml file**
+Here is a smart tool to help you build
 
-If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
+<ListOptions
+  items={[
+    { id: 'Denoising', label: 'Denoising' },
+    { id: 'Eddy current', label: 'Eddy current' },
+    { id: 'N4 correction', label: 'N4 correction' },
+    { id: 'Resampling', label: 'Resampling' },
+    { id: 'Tracking', label: "Tracking" },
+  ]}
+/>
 
-Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
+## **Advanced usage**
 
-:::caution
-Do not use `-c <file>` to specify parameters as this will result in errors. Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-:::
+The execution method for `sf-mouse` varies, often depending on the informatics structure where you intend to run `sf-mouse`.
 
-The above pipeline run specified with a params file in yaml format:
+Here are three extra sections that could help you:
+ 
+   - [No Internet](../nointernet)
+   - [FAQ](../faq)
 
-<Tabs>
-  <TabItem label="Command">
-    ```bash
-    nextflow run scilus/sf-mouse -r 0.1.0 -profile docker -params-file params.yaml
-    ```
-  </TabItem>
-</Tabs>
+## **Outputs**
 
-with:
-
-```yaml title="params.yaml"
-input: '<input_directory>/'
-outdir: './results/'
-<...>
-```
-
-### **Reproducibility**
-
-It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
-
-First, go to the [scilus/sf-mouse releases page](https://github.com/scilus/sf-mouse/releases) and find the latest pipeline version - numeric only (eg. `0.1.0`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 0.1.0`. Of course, you can switch to another version by changing the number after the `-r` flag.
-
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
-
-To further assist in reproducibility, you can use share and reuse [parameter files](#using-the-paramsyml-file) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
-
-:::tip
-If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
-:::
-
-### **Core `nextflow` arguments**
-
-:::note
-These options are part of Nextflow and use a *single* hyphen (pipeline parameters use a double-hyphen)
-:::
-
-### **`-profile`**
-
-Use this parameter to choose a configuration profile. Profiles can give configuration presets for different compute environments.
-
-Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, and Apptainer) - see below.
-
-:::caution[Important!]
-We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
-:::
-
-The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time. For more information and to check if your system is supported, please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
-
-Note that multiple profiles can be loaded, for example: `-profile tracking,docker` - the order of arguments is important!
-They are loaded in sequence, so later profiles can overwrite earlier profiles. For a complete description of the available profiles, please see this [section](#choosing-a-profile).
-
-### **`-resume`**
-
-Specify this when restarting a pipeline. Nextflow will use cached results from any pipeline steps where the inputs are the same, continuing from where it got to previously. For input to be considered the same, not only the names must be identical but the files' contents as well. For more info about this parameter, see [this blog post](https://www.nextflow.io/blog/2019/demystifying-nextflow-resume.html).
-
-You can also supply a run name to resume a specific run: `-resume [run-name]`. Use the `nextflow log` command to show previous run names.
-
-### **`-c`**
-
-Specify the path to a specific config file (this is a core Nextflow command). See the [nf-core website documentation](https://nf-co.re/usage/configuration) for more information.
+You are now ready to explore [the output BIDS structure](../outputs). 

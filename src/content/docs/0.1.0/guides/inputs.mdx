@@ -13,14 +13,19 @@ import { FileTree } from '@astrojs/starlight/components';
 <FileTree>
   * input\_directory
     * sub-01
-      * sub-01\_dwi.nii.gz
       * sub-01\_dwi.bval
       * sub-01\_dwi.bvec
+      * sub-01\_dwi.nii.gz
+      * sub-01\_mask.nii.gz (optional)
     * sub-02
-      * sub-02\_dwi.nii.gz
       * sub-02\_dwi.bval
       * sub-02\_dwi.bvec
+      * sub-02\_dwi.nii.gz
+      * sub-02\_mask.nii.gz (optional)
 </FileTree>
+
+`sf-mouse` allows to extract the brain with a nnUNet algorithm.
+If you don't want to use this method, you also can provide a mask.
 
 ### **BIDS input directory** (In development)
 
